@@ -13,7 +13,7 @@
       "name": "/"
     },
     {
-      "name": "sistema"
+      "name": "b2b"
     }
   ],
   "permissions": [
@@ -26,7 +26,7 @@
     },
     {
       "user": "guest",
-      "vhost": "sistema",
+      "vhost": "b2b",
       "configure": ".*",
       "write": ".*",
       "read": ".*"
@@ -36,8 +36,8 @@
   "policies": [],
   "queues": [
     {
-      "name": "processamento",
-      "vhost": "sistema",
+      "name": "erros",
+      "vhost": "b2b",
       "durable": true,
       "auto_delete": false,
       "arguments": {
@@ -45,8 +45,17 @@
       }
     },
     {
-      "name": "solicitacao",
-      "vhost": "sistema",
+      "name": "pre-cadastro",
+      "vhost": "b2b",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-ha-policy": "all"
+      }
+    },
+    {
+      "name": "solicitacao-segunda-via",
+      "vhost": "b2b",
       "durable": true,
       "auto_delete": false,
       "arguments": {
@@ -56,8 +65,8 @@
   ],
   "exchanges":[
     {
-      "name": "tarefa",
-      "vhost": "sistema",
+      "name": "cliente",
+      "vhost": "b2b",
       "type": "topic",
       "durable": true,
       "auto_delete": false,
@@ -65,8 +74,8 @@
       "arguments": {}
     },
     {
-      "name": "cliente",
-      "vhost": "sistema",
+      "name": "erros",
+      "vhost": "b2b",
       "type": "topic",
       "durable": true,
       "auto_delete": false,
@@ -76,19 +85,27 @@
   ],
   "bindings": [
     {
-      "source": "tarefa",
-      "vhost": "sistema",
-      "destination": "processamento",
+      "source": "cliente",
+      "vhost": "b2b",
+      "destination": "pre-cadastro",
       "destination_type": "queue",
-      "routing_key": "tarefa.processamento",
+      "routing_key": "cliente.pre-cadastro",
       "arguments": {}
     },
     {
       "source": "cliente",
-      "vhost": "sistema",
-      "destination": "solicitacao",
+      "vhost": "b2b",
+      "destination": "solicitacao-segunda-via",
       "destination_type": "queue",
-      "routing_key": "cliente.solicitacao",
+      "routing_key": "cliente.solicitacao-segunda-via",
+      "arguments": {}
+    },
+    {
+      "source": "erros",
+      "vhost": "b2b",
+      "destination": "erros",
+      "destination_type": "queue",
+      "routing_key": "erros.erros",
       "arguments": {}
     }
   ]

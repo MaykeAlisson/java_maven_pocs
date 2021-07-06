@@ -10,3 +10,8 @@ services:
     volumes:
       - ./config_rabbitMq/definitions.json:/opt/definitions.json:ro
       - ./config_rabbitMq/rabbitmq.config:/etc/rabbitmq/rabbitmq.config:ro
+  redis:
+    image: redis:6.2.4-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"

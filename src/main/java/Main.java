@@ -1,19 +1,19 @@
 import pocs.rabbitMq.Queue;
 import pocs.thread.Tarefa;
 
-import static pocs.rabbitMq.Queue.FILA_PROCESSAMENTO;
-import static pocs.rabbitMq.Queue.FILA_SOLICITACAO;
+import static pocs.rabbitMq.Queue.ROUTING_KEY_B2B_PRE_CADASTRO;
+import static pocs.rabbitMq.Queue.ROUTING_KEY_B2B_SOLICITACAO_SEGUNDA_VIA;
 
 public class Main {
 
     public static void main(String[] args) {
-
+        publichQueue();
     }
 
     // poc publichQueue
     private static void publichQueue(){
-        new Queue().enviar( 41476568000160L, FILA_PROCESSAMENTO );
-        new Queue().enviar( 90L, FILA_SOLICITACAO );
+        new Queue().enviar( "cliente", 41476568000160L, ROUTING_KEY_B2B_PRE_CADASTRO );
+        new Queue().enviar( "cliente", 90L, ROUTING_KEY_B2B_SOLICITACAO_SEGUNDA_VIA );
     }
 
     // poc multiThread
