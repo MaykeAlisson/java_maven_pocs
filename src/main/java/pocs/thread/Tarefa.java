@@ -1,4 +1,4 @@
-package pocs;
+package pocs.thread;
 
 public class Tarefa extends Thread {
 

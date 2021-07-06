@@ -1,9 +1,19 @@
-import pocs.Tarefa;
+import pocs.rabbitMq.Queue;
+import pocs.thread.Tarefa;
+
+import static pocs.rabbitMq.Queue.FILA_PROCESSAMENTO;
+import static pocs.rabbitMq.Queue.FILA_SOLICITACAO;
 
 public class Main {
 
     public static void main(String[] args) {
-        multiThread();
+
+    }
+
+    // poc publichQueue
+    private static void publichQueue(){
+        new Queue().enviar( 41476568000160L, FILA_PROCESSAMENTO );
+        new Queue().enviar( 90L, FILA_SOLICITACAO );
     }
 
     // poc multiThread
@@ -36,5 +46,14 @@ public class Main {
 
         //Exibimos o somatório dos totalizadores de cada Thread
         System.out.println("Total: " + (t1.getTotal() + t2.getTotal() + t3.getTotal() + t4.getTotal()));
+    }
+
+    private static void sleep() {
+        final int segundos = 5 * 1000;
+        try {
+            Thread.sleep( segundos );
+        } catch ( InterruptedException e ) {
+            e.printStackTrace();
+        }
     }
 }
