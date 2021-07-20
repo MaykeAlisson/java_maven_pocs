@@ -1,17 +1,45 @@
 version: '3.3'
 
 services:
-  rabbitmq:
-    image: rabbitmq:3-management
-    container_name: rabbitmq
+#  rabbitmq:
+#    image: rabbitmq:3-management
+#    container_name: rabbitmq
+#    ports:
+#      - "5672:5672"
+#      - "15672:15672"
+#    volumes:
+#      - ./config/rabbitMq/definitions.json:/opt/definitions.json:ro
+#      - ./config/rabbitMq/rabbitmq.config:/etc/rabbitmq/rabbitmq.config:ro
+#  redis:
+#    image: redis:6.2.4-alpine
+#    container_name: redis
+#    ports:
+#      - "6379:6379"
+  elasticsearch:
+    image: elasticsearch:7.6.2
+    container_name: elasticsearch
+    hostname: elasticsearch
+    environment:
+      - "discovery.type=single-node"
     ports:
-      - "5672:5672"
-      - "15672:15672"
-    volumes:
-      - ./config_rabbitMq/definitions.json:/opt/definitions.json:ro
-      - ./config_rabbitMq/rabbitmq.config:/etc/rabbitmq/rabbitmq.config:ro
-  redis:
-    image: redis:6.2.4-alpine
-    container_name: redis
+      - 9200:9200
+      - 9300:9300
+#    networks:
+#      - elknetwork
+  kibana:
+    image: kibana:7.6.2
+    container_name: kibana
+    hostname: kibana
     ports:
-      - "6379:6379"
+      - 5601:5601
+    links:
+      - elasticsearch:elasticsearch
+    depends_on:
+      - elasticsearch
+#    networks:
+#      - elknetwork
+
+
+#networks:
+#  elknetwork:
+#    driver: bridge
